@@ -1,116 +1,3 @@
-var treeData = [{
-    "name": "Drake",
-    "parent": "null",
-    "children": [{
-        "name": "2011",
-        "parent": "Drake",
-        "children": [{
-            "name": "Take Care",
-            "parent": "2011",
-            "children":[{
-                "name": "Over My Dead Body",
-                "parent": "Take Care",
-                "href": "https://www.youtube.com/watch?v=kAMDVkK9nUE"
-            }, {
-                "name": "Shot for Me",
-                "parent": "Take Care"
-            }, {
-                "name": "Headlines",
-                "parent": "Take Care"
-            }, {
-                "name": "Crew Love",
-                "parent": "Take Care"
-            }, {
-                "name": "Marvins Room",
-                "parent": "Take Care"
-            }, {
-                "name": "Buried Alive Interlude",
-                "parent": "Take Care"
-            }, {
-                "name": "Under Ground Kings",
-                "parent": "Take Care"
-            }, {
-                "name": "We'll Be Fine",
-                "parent": "Take Care"
-            }, {
-                "name": "Make Me Proud",
-                "parent": "Take Care"
-            }, {
-                "name": "Lord Knows",
-                "parent": "Take Care"
-            }, {
-                "name": "Cameras / Good Ones Go Interlude",
-                "parent": "Take Care"
-            }, {
-                "name": "Doing It Wrong",
-                "parent": "Take Care"
-            }, {
-                "name": "The Real Her",
-                "parent": "Take Care"
-            }, {
-                "name": "Look What You’ve Done",
-                "parent": "Take Care"
-            }, {
-                "name": "HYFR (Hell Ya Fucking Right)",
-                "parent": "Take Care"
-            }, {
-                "name": "Practice",
-                "parent": "Take Care"
-            }, {
-                "name": "The Ride",
-                "parent": "Take Care"
-            }]
-        }]
-    }, {
-        "name": "2013",
-        "parent": "Drake",
-        "children": [{
-            "name": "Nothing Was the Same",
-            "parent": "2013",
-            "children":[{
-                "name": "Over My Dead Body",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Furthest Thing",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Started from the Bottom",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Wu-Tang Forever",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Own It",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Worst Behavior",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "From Time",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Hold On, We're Going Home",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name":	"Connect",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "The Language",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "305 to My City",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Too Much",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Pound Cake / Paris Morton Music 2",
-                "parent": "Nothing Was the Same"
-            }]
-        }]
-    }]
-}];
-
 var margin = {
         top: 20,
         right: 120,
@@ -175,7 +62,8 @@ function update(source) {
         })
         .on("click", click)
         .append("a")
-        .attr("xlink:href", function(d) { return d.href; });
+        .attr("xlink:href", function(d) { return d.href; })
+        .attr("target", "_blank");
 
     nodeEnter.append("circle")
         .attr("r", 1e-6)
