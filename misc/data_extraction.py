@@ -13,32 +13,41 @@ def main():
 
     print tree_data
 
-    # 
+    # Spotify Web API
     get_albums_from_artist = 'https://api.spotify.com/v1/artists/%s/albums?album_type=album&limit=50'
     get_albums_detail = 'https://api.spotify.com/v1/albums/%s'
 
     r = requests.get(get_albums_from_artist % artist_id)
     albums = json.loads(r.text)
 
-    # extract album id
+    # Extract album id
     album_ids = []
     for album in albums['items']:
         album_ids.append(album['id'])
 
+    # depth 1: artist (a.k.a tree_date[0])
+    # depth 2: album release year
+    # depth 3: album name
+    # depth 4: tracks in the album
     for album_id in album_ids:
         isAppend = False
         r = requests.get(get_albums_detail % album_id)
         album = json.loads(r.text)
         depth_4 = []
         for track in album['tracks']['items']:
-            depth_4.append({'name': track['name']})
+            depth_4.append({'name': track['name'], 'parent': album['name']})
             print album['release_date'][:4] + '---->' + album['name'] + '---->' + track['name']
         depth_3 = {'name': album['name'], 'parent': album['release_date'][:4], 'children': depth_4}
+
+        # Check if there exists a particular release year branch 
+        # If so, append the album information to the desired release year branch 
         for x in xrange(0, len(tree_data[0]['children'])):
             if tree_data[0]['children'][x]['name'] == album['release_date'][:4]:
                 tree_data[0]['children'][x]['children'].append(depth_3)
                 isAppend = True
                 break
+
+        # If not, create a new release year branch
         if isAppend == False:
             depth_2 = {'name': album['release_date'][:4], 'parent': tree_data[0]['name'], 'children': []}
             depth_2['children'].append(depth_3)
