@@ -1,11 +1,13 @@
 var margin = {
-        top: 20,
-        right: 120,
-        bottom: 20,
-        left: 120
-    }
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+}
 var width = 960 - margin.right - margin.left;
 var height = 700 - margin.top - margin.bottom;
+
+// Drag
 
 var i = 0;
 var duration = 750;
@@ -22,23 +24,39 @@ var diagonal = d3.svg.diagonal()
     });
 
 var svg = d3.select("body").append("svg")
+    .style("border", "1px solid black")
     .attr("width", width + margin.right + margin.left)
     .attr("height", height + margin.top + margin.bottom)
+    .call(d3.behavior.zoom().translate([width/2, height/2]).on("zoom", function () {
+        svg.attr("transform", "translate(" + d3.event.translate + ")")
+    }))
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 root = treeData[0];
 root.x0 = height / 2;
 root.y0 = 0;
 
 update(root);
-
+centerNode(root);
 // Collapse all node
 collapseAll();
-d3.select(self.frameElement).style("height", "500px");
 
 function update(source) {
-
+    // Compute new width
+    var levelWidth = [1];
+    var childCount = function(level, n) {
+        if (n.children && n.children.length > 0) {
+            if (levelWidth.length <= level + 1) levelWidth.push(0);
+            levelWidth[level + 1] += n.children.length;
+            n.children.forEach(function(d) {
+                childCount(level + 1, d);
+            });
+        }
+    };
+    childCount(0, root);
+    var newHeight = d3.max(levelWidth) * 25; // 20 pixels per line  
+    tree = tree.size([newHeight, width]);
+    
     // Compute the new tree layout.
     var nodes = tree.nodes(root).reverse(),
         links = tree.links(nodes);
@@ -62,7 +80,9 @@ function update(source) {
         })
         .on("click", click)
         .append("a")
-        .attr("xlink:href", function(d) { return d.href; })
+        .attr("xlink:href", function(d) {
+            return d.href;
+        })
         .attr("target", "_blank");
 
     nodeEnter.append("circle")
@@ -173,33 +193,43 @@ function click(d) {
     update(d);
 }
 
-function expand(d) {   
+function expand(d) {
     var children = (d.children) ? d.children : d._children;
-    if (d._children) {        
+    if (d._children) {
         d.children = d._children;
-        d._children = null;       
+        d._children = null;
     }
-    if(children)
-      children.forEach(expand);
+    if (children)
+        children.forEach(expand);
 }
 
 function collapse(d) {
     var children = (d._children) ? d._children : d.children;
-    if (d.children) {        
+    if (d.children) {
         d._children = d.children;
-        d.children = null;       
+        d.children = null;
     }
-    if(children)
-      children.forEach(collapse);
+    if (children)
+        children.forEach(collapse);
 }
 
-function expandAll(){
-    expand(root); 
+function expandAll() {
+    expand(root);
     update(root);
 }
 
-function collapseAll(){
+function collapseAll() {
     root.children.forEach(collapse);
     collapse(root);
     update(root);
+}
+
+function centerNode(source) {
+    x = -source.y0;
+    y = -source.x0;
+    x = width / 2;
+    y = height / 2;
+    d3.select('g').transition()
+        .duration(duration)
+        .attr("transform", "translate(" + x + "," + y + ")");
 }
