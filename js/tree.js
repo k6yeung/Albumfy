@@ -1,124 +1,13 @@
-var treeData = [{
-    "name": "Drake",
-    "parent": "null",
-    "children": [{
-        "name": "2011",
-        "parent": "Drake",
-        "children": [{
-            "name": "Take Care",
-            "parent": "2011",
-            "children":[{
-                "name": "Over My Dead Body",
-                "parent": "Take Care",
-                "href": "https://www.youtube.com/watch?v=kAMDVkK9nUE"
-            }, {
-                "name": "Shot for Me",
-                "parent": "Take Care"
-            }, {
-                "name": "Headlines",
-                "parent": "Take Care"
-            }, {
-                "name": "Crew Love",
-                "parent": "Take Care"
-            }, {
-                "name": "Marvins Room",
-                "parent": "Take Care"
-            }, {
-                "name": "Buried Alive Interlude",
-                "parent": "Take Care"
-            }, {
-                "name": "Under Ground Kings",
-                "parent": "Take Care"
-            }, {
-                "name": "We'll Be Fine",
-                "parent": "Take Care"
-            }, {
-                "name": "Make Me Proud",
-                "parent": "Take Care"
-            }, {
-                "name": "Lord Knows",
-                "parent": "Take Care"
-            }, {
-                "name": "Cameras / Good Ones Go Interlude",
-                "parent": "Take Care"
-            }, {
-                "name": "Doing It Wrong",
-                "parent": "Take Care"
-            }, {
-                "name": "The Real Her",
-                "parent": "Take Care"
-            }, {
-                "name": "Look What You’ve Done",
-                "parent": "Take Care"
-            }, {
-                "name": "HYFR (Hell Ya Fucking Right)",
-                "parent": "Take Care"
-            }, {
-                "name": "Practice",
-                "parent": "Take Care"
-            }, {
-                "name": "The Ride",
-                "parent": "Take Care"
-            }]
-        }]
-    }, {
-        "name": "2013",
-        "parent": "Drake",
-        "children": [{
-            "name": "Nothing Was the Same",
-            "parent": "2013",
-            "children":[{
-                "name": "Over My Dead Body",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Furthest Thing",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Started from the Bottom",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Wu-Tang Forever",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Own It",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Worst Behavior",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "From Time",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Hold On, We're Going Home",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name":	"Connect",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "The Language",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "305 to My City",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Too Much",
-                "parent": "Nothing Was the Same"
-            }, {
-                "name": "Pound Cake / Paris Morton Music 2",
-                "parent": "Nothing Was the Same"
-            }]
-        }]
-    }]
-}];
-
 var margin = {
-        top: 20,
-        right: 120,
-        bottom: 20,
-        left: 120
-    }
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+}
 var width = 960 - margin.right - margin.left;
 var height = 700 - margin.top - margin.bottom;
+
+// Drag
 
 var i = 0;
 var duration = 750;
@@ -134,11 +23,18 @@ var diagonal = d3.svg.diagonal()
         return [d.y, d.x];
     });
 
+// Zoom Listener
+var zoomListener = d3.behavior.zoom().translate([width/2, height/2]).scaleExtent([0.5, 1]).on("zoom", function () {
+        svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+});
+
 var svg = d3.select("body").append("svg")
+    .style("border", "1px solid black")
     .attr("width", width + margin.right + margin.left)
     .attr("height", height + margin.top + margin.bottom)
+    .call(zoomListener)
     .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
 root = treeData[0];
 root.x0 = height / 2;
@@ -148,17 +44,30 @@ update(root);
 
 // Collapse all node
 collapseAll();
-d3.select(self.frameElement).style("height", "500px");
 
 function update(source) {
-
+    // Compute new width
+    var levelWidth = [1];
+    var childCount = function(level, n) {
+        if (n.children && n.children.length > 0) {
+            if (levelWidth.length <= level + 1) levelWidth.push(0);
+            levelWidth[level + 1] += n.children.length;
+            n.children.forEach(function(d) {
+                childCount(level + 1, d);
+            });
+        }
+    };
+    childCount(0, root);
+    var newHeight = d3.max(levelWidth) * 30;  
+    tree = tree.size([newHeight, width]);
+    
     // Compute the new tree layout.
     var nodes = tree.nodes(root).reverse(),
         links = tree.links(nodes);
 
     // Normalize for fixed-depth.
     nodes.forEach(function(d) {
-        d.y = d.depth * 180;
+        d.y = d.depth * 200;
     });
 
     // Update the nodes…
@@ -175,12 +84,21 @@ function update(source) {
         })
         .on("click", click)
         .append("a")
-        .attr("xlink:href", function(d) { return d.href; });
+        .attr("xlink:href", function(d) {
+            return d.href;
+        })
+        .attr("target", "_blank");
 
     nodeEnter.append("circle")
         .attr("r", 1e-6)
         .style("fill", function(d) {
             return d._children ? "lightsteelblue" : "#fff";
+        })
+        .on('mouseover', function(d){
+            d3.select(this).style({stroke:'DarkSlateBlue'});
+        })      
+        .on('mouseout', function(d){
+            d3.select(this).style({stroke:'steelblue'});
         });
 
     nodeEnter.append("text")
@@ -271,6 +189,8 @@ function update(source) {
         d.x0 = d.x;
         d.y0 = d.y;
     });
+    
+    centerNode(source)
 }
 
 // Toggle children on click.
@@ -285,33 +205,46 @@ function click(d) {
     update(d);
 }
 
-function expand(d) {   
+function expand(d) {
     var children = (d.children) ? d.children : d._children;
-    if (d._children) {        
+    if (d._children) {
         d.children = d._children;
-        d._children = null;       
+        d._children = null;
     }
-    if(children)
-      children.forEach(expand);
+    if (children)
+        children.forEach(expand);
 }
 
 function collapse(d) {
     var children = (d._children) ? d._children : d.children;
-    if (d.children) {        
+    if (d.children) {
         d._children = d.children;
-        d.children = null;       
+        d.children = null;
     }
-    if(children)
-      children.forEach(collapse);
+    if (children)
+        children.forEach(collapse);
 }
 
-function expandAll(){
-    expand(root); 
+function expandAll() {
+    expand(root);
     update(root);
 }
 
-function collapseAll(){
+function collapseAll() {
     root.children.forEach(collapse);
     collapse(root);
     update(root);
+}
+
+function centerNode(source) {
+    scale = zoomListener.scale();
+    x = -source.y0;
+    y = -source.x0;
+    x = x * scale + width / 2;
+    y = y * scale + height / 2;
+    d3.select('g').transition()
+        .duration(duration)
+        .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
+    zoomListener.scale(scale);
+    zoomListener.translate([x, y]);
 }
