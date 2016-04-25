@@ -23,21 +23,25 @@ var diagonal = d3.svg.diagonal()
         return [d.y, d.x];
     });
 
+// Zoom Listener
+var zoomListener = d3.behavior.zoom().translate([width/2, height/2]).scaleExtent([0.5, 1]).on("zoom", function () {
+        svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+});
+
 var svg = d3.select("body").append("svg")
     .style("border", "1px solid black")
     .attr("width", width + margin.right + margin.left)
     .attr("height", height + margin.top + margin.bottom)
-    .call(d3.behavior.zoom().translate([width/2, height/2]).on("zoom", function () {
-        svg.attr("transform", "translate(" + d3.event.translate + ")")
-    }))
+    .call(zoomListener)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+
 root = treeData[0];
 root.x0 = height / 2;
 root.y0 = 0;
 
 update(root);
-centerNode(root);
+
 // Collapse all node
 collapseAll();
 
@@ -54,7 +58,7 @@ function update(source) {
         }
     };
     childCount(0, root);
-    var newHeight = d3.max(levelWidth) * 25; // 20 pixels per line  
+    var newHeight = d3.max(levelWidth) * 30;  
     tree = tree.size([newHeight, width]);
     
     // Compute the new tree layout.
@@ -63,7 +67,7 @@ function update(source) {
 
     // Normalize for fixed-depth.
     nodes.forEach(function(d) {
-        d.y = d.depth * 180;
+        d.y = d.depth * 200;
     });
 
     // Update the nodes…
@@ -89,6 +93,12 @@ function update(source) {
         .attr("r", 1e-6)
         .style("fill", function(d) {
             return d._children ? "lightsteelblue" : "#fff";
+        })
+        .on('mouseover', function(d){
+            d3.select(this).style({stroke:'DarkSlateBlue'});
+        })      
+        .on('mouseout', function(d){
+            d3.select(this).style({stroke:'steelblue'});
         });
 
     nodeEnter.append("text")
@@ -179,6 +189,8 @@ function update(source) {
         d.x0 = d.x;
         d.y0 = d.y;
     });
+    
+    centerNode(source)
 }
 
 // Toggle children on click.
@@ -225,11 +237,14 @@ function collapseAll() {
 }
 
 function centerNode(source) {
+    scale = zoomListener.scale();
     x = -source.y0;
     y = -source.x0;
-    x = width / 2;
-    y = height / 2;
+    x = x * scale + width / 2;
+    y = y * scale + height / 2;
     d3.select('g').transition()
         .duration(duration)
-        .attr("transform", "translate(" + x + "," + y + ")");
+        .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
+    zoomListener.scale(scale);
+    zoomListener.translate([x, y]);
 }
