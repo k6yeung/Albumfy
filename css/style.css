@@ -1,16 +1,25 @@
+body{
+    background: #EEEEEE;
+    overflow: hidden;
+}
 .node{
     cursor: pointer;
 }
 
 .node circle {
-     fill: #fff;
-     stroke: steelblue;
-     stroke-width: 2px;
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 2px;
+    -webkit-transition: stroke .5s ease;
+    -moz-transition: stroke .5s ease;
  }
 
+.node circle:hover {
+    stroke: DarkSlateBlue;
+}
  .node text { 
-     font: 12px sans-serif;
-     font-family: 'Lato';
+     font: 1em sans-serif;
+     font-family: 'Montserrat';
  }
 
  .link {
@@ -18,3 +27,48 @@
      stroke: #ccc;
      stroke-width: 2px;
  }
+
+svg {
+    display: block;
+    margin: auto;
+}
+
+h1 {
+    font-size: 5em;
+    text-align: center;
+    font-family: 'Montserrat';
+    margin: 20px 0px 20px 0px;
+}
+
+footer {
+    margin: 30px;
+    text-align: center;
+}
+
+footer i {
+    margin-right: 10px;
+}
+
+footer a {
+    color:black;
+    opacity: .5;
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+}
+
+footer a:hover {
+    opacity: 1;
+}
+
+input {
+    font-family: 'Montserrat';
+    width: 300px;
+    height: 30px;
+    font-size: 25px;
+    border: 2px solid black;
+}
+
+#searchBox {
+    text-align: center;
+    margin-bottom: 30px;
+}

@@ -94,12 +94,6 @@ function update(source) {
         .style("fill", function(d) {
             return d._children ? "lightsteelblue" : "#fff";
         })
-        .on('mouseover', function(d){
-            d3.select(this).style({stroke:'DarkSlateBlue'});
-        })      
-        .on('mouseout', function(d){
-            d3.select(this).style({stroke:'steelblue'});
-        });
 
     nodeEnter.append("text")
         .attr("x", function(d) {

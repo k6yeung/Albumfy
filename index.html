@@ -5,13 +5,21 @@
         <title>Albumfy</title>
         <link rel="stylesheet" type="text/css" href="css/style.css">
         <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
-
+        <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     </head>
     <body>
-        <button onclick="changeArtist()">Change Artist</button>
+        <h1><i class="fa fa-headphones"></i> Albumfy</h1>
+        <div id="searchBox">
+            <input type="text" size="30" placeholder="Search Artist...">
+        </div>
         <script src="http://d3js.org/d3.v3.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="json/tree_data.js"></script>
+        <script src="misc/tree_data.js"></script>
         <script src="js/tree.js"></script>
+        <footer>
+            <a href="https://github.com/chewong/Albumfy" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+            <a href="#" onclick="return false;"><i class="fa fa-info-circle fa-2x"></i></a>
+        </footer>
     </body>
 </html>
