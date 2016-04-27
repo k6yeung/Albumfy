@@ -1,65 +1,55 @@
-body{
+body {
     background: #EEEEEE;
     overflow: hidden;
 }
-.node{
+.node {
     cursor: pointer;
 }
-
 .node circle {
     fill: #fff;
     stroke: steelblue;
     stroke-width: 2px;
     -webkit-transition: stroke .5s ease;
     -moz-transition: stroke .5s ease;
- }
-
+}
 .node circle:hover {
     stroke: DarkSlateBlue;
 }
- .node text { 
-     font: 1em sans-serif;
-     font-family: 'Montserrat';
- }
-
- .link {
-     fill: none;
-     stroke: #ccc;
-     stroke-width: 2px;
- }
-
+.node text {
+    font: .75em sans-serif;
+    font-family: 'Montserrat';
+}
+.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+}
 svg {
     display: block;
     margin: auto;
 }
-
 h1 {
     font-size: 5em;
     text-align: center;
     font-family: 'Montserrat';
     margin: 20px 0px 20px 0px;
 }
-
 footer {
     margin: 30px;
     text-align: center;
 }
-
 footer i {
     margin-right: 10px;
 }
-
 footer a {
-    color:black;
+    color: black;
     opacity: .5;
     -webkit-transition: all .5s ease;
     -moz-transition: all .5s ease;
 }
-
 footer a:hover {
     opacity: 1;
 }
-
 input {
     font-family: 'Montserrat';
     width: 300px;
@@ -67,8 +57,55 @@ input {
     font-size: 25px;
     border: 2px solid black;
 }
-
 #searchBox {
     text-align: center;
     margin-bottom: 30px;
+}
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: white;
+    opacity: .9;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    font-family: 'Montserrat';
+}
+.overlay p, .overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+.overlay a:hover,
+.overlay a:focus {
+    color: #000000;
+}
+.closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px !important;
+}
+@media screen and (max-height: 450px) {
+    .overlay a {
+        font-size: 20px
+    }
+    .closebtn {
+        font-size: 40px !important;
+        top: 15px;
+        right: 35px;
+    }
 }

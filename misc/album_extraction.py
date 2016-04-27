@@ -2,12 +2,15 @@ import requests, json
 
 output_list = []
 artist_ids = []
+lookup = {}
 
 def main():
     with open('artists.json', 'r') as file:
         json_obj = json.loads(file.read())
         print json_obj.values()
         artist_ids = json_obj.values()
+
+    count = 0;
 
     for artist_id in artist_ids:
         try:
@@ -18,6 +21,10 @@ def main():
             tree_data = {'name': artist['name'], 'parent': 'null', 'children': []}
 
             print artist['name'] + ' ' + artist_id
+
+            # Construct a lookup dict for searching purpose
+            lookup[artist['name']] = count
+            count += 1
 
             # Spotify Web API
             get_albums_from_artist = 'https://api.spotify.com/v1/artists/%s/albums?album_type=album&limit=50'
@@ -79,6 +86,8 @@ def main():
 
     with open('tree_data.js', 'w') as file:
         file.write('var treeData = %s' % json.dumps(output_list))
+    with open('lookup.js', 'w') as file:
+        file.write('var lookup = %s' % json.dumps(lookup))
 
 
 if __name__ == '__main__':
