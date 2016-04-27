@@ -1,6 +1,5 @@
 body {
     background: #EEEEEE;
-    overflow: hidden;
 }
 .node {
     cursor: pointer;
@@ -40,6 +39,7 @@ footer {
 }
 footer i {
     margin-right: 10px;
+    margin-bottom: -100px;
 }
 footer a {
     color: black;
@@ -63,15 +63,15 @@ input {
 }
 .overlay {
     height: 100%;
-    width: 0;
+    width: 100%;
+    display: none;
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     background-color: white;
-    opacity: .9;
+    opacity: .95;
     overflow-x: hidden;
-    transition: 0.5s;
 }
 .overlay-content {
     position: relative;
@@ -82,12 +82,12 @@ input {
     font-family: 'Montserrat';
 }
 .overlay p, .overlay a {
-    padding: 8px;
     text-decoration: none;
     font-size: 36px;
     color: #818181;
     display: block;
     transition: 0.3s;
+    display: inline-block;
 }
 .overlay a:hover,
 .overlay a:focus {
