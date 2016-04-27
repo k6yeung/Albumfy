@@ -1,3 +1,11 @@
+var currentArtist = treeData[14]['name'];
+
+$("#searchBox").keyup(function(event) {
+    if (event.keyCode == 13) {
+        changeArtist($("#input").val());
+    }
+});
+
 var margin = {
     top: 0,
     right: 0,
@@ -6,8 +14,6 @@ var margin = {
 }
 var width = 960 - margin.right - margin.left;
 var height = 700 - margin.top - margin.bottom;
-
-// Drag
 
 var i = 0;
 var duration = 750;
@@ -24,8 +30,8 @@ var diagonal = d3.svg.diagonal()
     });
 
 // Zoom Listener
-var zoomListener = d3.behavior.zoom().translate([width/2, height/2]).scaleExtent([0.5, 1]).on("zoom", function () {
-        svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+var zoomListener = d3.behavior.zoom().translate([width / 2, height / 2]).scaleExtent([0.5, 1.2]).on("zoom", function() {
+    svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 });
 
 var svg = d3.select("body").append("svg")
@@ -36,7 +42,7 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
-root = treeData[0];
+root = treeData[14];
 root.x0 = height / 2;
 root.y0 = 0;
 
@@ -58,16 +64,16 @@ function update(source) {
         }
     };
     childCount(0, root);
-    var newHeight = d3.max(levelWidth) * 30;  
+    var newHeight = d3.max(levelWidth) * 30;
     tree = tree.size([newHeight, width]);
-    
+
     // Compute the new tree layout.
     var nodes = tree.nodes(root).reverse(),
         links = tree.links(nodes);
 
     // Normalize for fixed-depth.
     nodes.forEach(function(d) {
-        d.y = d.depth * 200;
+        d.y = d.depth * 230;
     });
 
     // Update the nodes…
@@ -80,7 +86,9 @@ function update(source) {
     var nodeEnter = node.enter().append("g")
         .attr("class", "node")
         .attr("transform", function(d) {
-            return "translate(" + source.y0 + "," + source.x0 + ")";
+            var x = source.x0 == undefined ? 0 : source.x0;
+            var y = source.y0 == undefined ? 0 : source.y0;
+            return "translate(" + y + "," + x + ")";
         })
         .on("click", click)
         .append("a")
@@ -149,8 +157,8 @@ function update(source) {
         .attr("class", "link")
         .attr("d", function(d) {
             var o = {
-                x: source.x0,
-                y: source.y0
+                x: isNaN(source.x0) ? 0 : source.x0,
+                y: isNaN(source.y0) ? 0 : source.y0
             };
             return diagonal({
                 source: o,
@@ -183,7 +191,7 @@ function update(source) {
         d.x0 = d.x;
         d.y0 = d.y;
     });
-    
+
     centerNode(source)
 }
 
@@ -236,9 +244,18 @@ function centerNode(source) {
     y = -source.x0;
     x = x * scale + width / 2;
     y = y * scale + height / 2;
-    d3.select('g').transition()
+    d3.select("g").transition()
         .duration(duration)
         .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
     zoomListener.scale(scale);
     zoomListener.translate([x, y]);
+}
+
+function changeArtist(artistName) {
+    if (artistName != currentArtist) {
+        currentArtist = artistName;
+        root = treeData[lookup[artistName]];
+        update(root);
+        collapseAll();
+    }
 }
