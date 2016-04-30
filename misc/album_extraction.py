@@ -49,7 +49,7 @@ def main():
                 album = json.loads(r.text)
                 depth_4 = []
                 for track in album['tracks']['items']:
-                    depth_4.append({'name': track['name'], 'parent': album['name']})
+                    depth_4.append({'name': track['name'], 'parent': album['name'], 'href': track['external_urls']['spotify']})
 
                 # Some albums might have duplicated name (e.g. Drake's 'Nothing was the same' and 'Nothing was the same (Deluxe version)')
                 # They are basically the same thing, so here we remove all unnecessary keyword and cache it to prevent duplicates
