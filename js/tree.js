@@ -1,11 +1,13 @@
 var currentArtist = treeData[14]['name'];
 
+// Press enter to search
 $("#searchBox").keyup(function(event) {
     if (event.keyCode == 13) {
         changeArtist($("#input").val());
     }
 });
 
+// msic var
 var margin = {
     top: 0,
     right: 0,
@@ -42,6 +44,7 @@ var svg = d3.select("body").append("svg")
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
+// Default root is Drake
 root = treeData[14];
 root.x0 = height / 2;
 root.y0 = 0;
@@ -76,7 +79,7 @@ function update(source) {
         d.y = d.depth * 230;
     });
 
-    // Update the nodes…
+    // Update the nodes
     var node = svg.selectAll("g.node")
         .data(nodes, function(d) {
             return d.id || (d.id = ++i);
@@ -90,12 +93,7 @@ function update(source) {
             var y = source.y0 == undefined ? 0 : source.y0;
             return "translate(" + y + "," + x + ")";
         })
-        .on("click", click)
-        .append("a")
-        .attr("xlink:href", function(d) {
-            return d.href;
-        })
-        .attr("target", "_blank");
+        .on("click", click);
 
     nodeEnter.append("circle")
         .attr("r", 1e-6)
@@ -205,6 +203,10 @@ function click(d) {
         d._children = null;
     }
     update(d);
+    // Get to song link
+    if (d.href !== undefined) {
+        window.open(d.href, "_blank");
+    }
 }
 
 function expand(d) {
