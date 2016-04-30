@@ -14,7 +14,23 @@
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <div class="overlay-content">
             <p>
-                Albumfy                
+                <i class="fa fa-headphones"></i> Albumfy
+                <br>
+                <span style="font-size:20px">
+                    A new way to discover and visualize famous artists' albums and tracks.
+                    <br>
+                    <b>Usage</b>:
+                    <br>
+                    Search your favourite artists. Zooming and panning tree are available for better UX.
+                    <br>
+                    <b>Technology Stacks</b>: 
+                    <br>
+                    Front End = HTML5 + CSS3 + JavaScript + <a href="https://d3js.org/" target="_blank" style="font-size:20px"><u>D3.js</u></a>
+                    <br>
+                    Data Extraction / Backbone = Python + <a href="https://developer.spotify.com/web-api/" target="_blank" style="font-size:20px"><u>Spotify Web API</u></a>
+                    <br>
+                    Created with <i class="fa fa-heart" style="color:#FF69B4"></i> by <a href="http://ernestw.com" target="_blank" style="font-size:20px"><u>Ernest</u></a> and Kyle
+                </span>
             </p>
         </div>
     </div>
@@ -29,16 +45,17 @@
     <script src="js/tree.js"></script>
     <footer>
         <a href="https://github.com/chewong/Albumfy" target="_blank"><i class="fa fa-github fa-2x"></i></a>
-        <a href="#" onclick="openNav()"><i class="fa fa-info-circle fa-2x"></i></a>
+        <a href="javascript:void(0);" onclick="openNav()"><i class="fa fa-info-circle fa-2x"></i></a>
     </footer>
     <script>
         function openNav() {
-            document.getElementById("myNav").style.width = "100%";
+            $("#myNav").fadeIn();
         }
 
         function closeNav() {
-            document.getElementById("myNav").style.width = "0%";
+            $("#myNav").fadeOut();
         }
+        
         $(document).keyup(function(event) {
             if (event.keyCode == 27) {
                 closeNav();
