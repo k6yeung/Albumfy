@@ -34,7 +34,7 @@ h1 {
     margin: 20px 0px 20px 0px;
 }
 footer {
-    margin: 30px;
+    margin: 25px;
     text-align: center;
 }
 footer i {
@@ -75,10 +75,9 @@ input {
 }
 .overlay-content {
     position: relative;
-    top: 25%;
     width: 100%;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 20vh;
     font-family: 'Montserrat';
 }
 .overlay p, .overlay a {
