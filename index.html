@@ -25,7 +25,7 @@
                     <br>
                     Search your favourite artists. Zooming and panning tree are available for better UX.
                     <br>
-                    <b>Technology Stacks</b>: 
+                    <b>Technology Stacks</b>:
                     <br>
                     Front End = HTML5 + CSS3 + JavaScript + <a href="https://d3js.org/" target="_blank" style="font-size:20px"><u>D3.js</u></a>
                     <br>
@@ -38,11 +38,13 @@
     </div>
     <h1><i class="fa fa-headphones"></i> Albumfy</h1>
     <div id="searchBox">
-        <select id="artist" placeholder="Search Artist..."></select>
+        <div id="clearbox">
+          <select id="artist" placeholder="Search Artist..."></select>
+        </div>
     </div>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>    
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.0/js/standalone/selectize.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.1/js/standalone/selectize.min.js"></script>
     <script src="misc/tree_data.js"></script>
     <script src="misc/lookup.js"></script>
     <script src="js/tree.js"></script>
@@ -58,13 +60,13 @@
         function closeNav() {
             $("#myNav").fadeOut();
         }
-        
+
         $(document).keyup(function(event) {
             if (event.keyCode == 27) {
                 closeNav();
             }
         });
-        
+
         // Set up selectize.js
         var select = document.getElementById("artist");
         var artistList = Object.keys(lookup).sort();
@@ -74,7 +76,12 @@
             select.add(artist);
             console.log(artist.value);
         }
-        $("#artist").selectize();
+       var $select =  $("#artist").selectize();
+
+        $("#clearbox").click(function () {
+            var selectize = $select[0].selectize;
+            selectize.clear(true);
+        });
     </script>
 </body>
 </html>
