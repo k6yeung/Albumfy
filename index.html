@@ -7,6 +7,8 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.0/css/selectize.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.0/css/selectize.bootstrap3.min.css">
 </head>
 
 <body>
@@ -36,10 +38,11 @@
     </div>
     <h1><i class="fa fa-headphones"></i> Albumfy</h1>
     <div id="searchBox">
-        <input id="input" type="text" size="30" placeholder="Search Artist...">
+        <select id="artist" placeholder="Search Artist..."></select>
     </div>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>    
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.0/js/standalone/selectize.min.js"></script>
     <script src="misc/tree_data.js"></script>
     <script src="misc/lookup.js"></script>
     <script src="js/tree.js"></script>
@@ -61,6 +64,17 @@
                 closeNav();
             }
         });
+        
+        // Set up selectize.js
+        var select = document.getElementById("artist");
+        var artistList = Object.keys(lookup).sort();
+        for (var i = 0; i < artistList.length; i++) {
+            var artist = document.createElement("option");
+            artist.value = artist.text = artistList[i];
+            select.add(artist);
+            console.log(artist.value);
+        }
+        $("#artist").selectize();
     </script>
 </body>
 </html>
