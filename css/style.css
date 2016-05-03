@@ -58,8 +58,8 @@ input {
     border: 2px solid black;
 }
 #searchBox {
-    text-align: center;
-    margin-bottom: 30px;
+    font-family: 'Montserrat';
+    margin-bottom: 20px;
 }
 .overlay {
     height: 100%;
@@ -107,4 +107,10 @@ input {
         top: 15px;
         right: 35px;
     }
+}
+
+.selectize-dropdown, .selectize-input, .selectize-control { 
+    width: 600px !important;
+    height:40px;
+    margin: auto;
 }
