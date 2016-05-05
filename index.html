@@ -53,6 +53,13 @@
         <a href="javascript:void(0);" onclick="openNav()"><i class="fa fa-info-circle fa-2x"></i></a>
     </footer>
     <script>
+        $('html').bind('keypress', function(e)
+{
+   if(e.keyCode == 13)
+   {
+      return false;
+   }
+});
         function openNav() {
             $("#myNav").fadeIn();
         }
@@ -72,12 +79,20 @@
         var artistList = Object.keys(lookup).sort();
         for (var i = 0; i < artistList.length; i++) {
             var artist = document.createElement("option");
+            // Default Drake
+            if (artistList[i] == "Drake") {
+                artist.setAttribute("selected", "selected");
+            }
             artist.value = artist.text = artistList[i];
             select.add(artist);
-            console.log(artist.value);
         }
-       var $select =  $("#artist").selectize();
-
+        var $select =  $("#artist").selectize({
+            onChange: function(value){
+                changeArtist(value);
+                console.log(value);
+            }
+        });
+        
         $("#clearbox").click(function () {
             var selectize = $select[0].selectize;
             selectize.clear(true);
