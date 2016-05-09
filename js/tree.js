@@ -206,6 +206,7 @@ function click(d) {
     // Get to song link
     if (d.href !== undefined) {
         window.open(d.href, "_blank");
+        //TODO: implement hint
     }
 }
 
