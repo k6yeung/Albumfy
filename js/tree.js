@@ -92,11 +92,18 @@ function update(source) {
             var x = source.x0 == undefined ? 0 : source.x0;
             var y = source.y0 == undefined ? 0 : source.y0;
             return "translate(" + y + "," + x + ")";
-        })
-        .on("click", click);
+        }).attr("song", function(d){
+            return d.href !== undefined;
+        }).attr("title", function(d){
+            if (d.href !== undefined){
+                return "TOOLTIP!";
+            }
+        }).on("click", click);
 
     nodeEnter.append("circle")
-        .attr("r", 1e-6)
+        .attr("r", 1e-6).attr("song", function(d){
+            return d.href !== undefined;
+        })
         .style("fill", function(d) {
             return d._children ? "lightsteelblue" : "#fff";
         })
@@ -205,8 +212,7 @@ function click(d) {
     update(d);
     // Get to song link
     if (d.href !== undefined) {
-        window.open(d.href, "_blank");
-        //TODO: implement hint
+        //window.open(d.href, "_blank");
     }
 }
 
