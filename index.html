@@ -53,13 +53,6 @@
         <a href="javascript:void(0);" onclick="openNav()"><i class="fa fa-info-circle fa-2x"></i></a>
     </footer>
     <script>
-        $('html').bind('keypress', function(e)
-{
-   if(e.keyCode == 13)
-   {
-      return false;
-   }
-});
         function openNav() {
             $("#myNav").fadeIn();
         }
@@ -71,12 +64,13 @@
         $(document).keyup(function(event) {
             if (event.keyCode == 27) {
                 closeNav();
+            } else if (event.keyCode == 13) {
             }
         });
 
         // Set up selectize.js
         var select = document.getElementById("artist");
-        var artistList = Object.keys(lookup).sort();
+        var artistList = Object.keys(lookup);
         for (var i = 0; i < artistList.length; i++) {
             var artist = document.createElement("option");
             // Default Drake
@@ -90,7 +84,9 @@
             onChange: function(value){
                 changeArtist(value);
                 console.log(value);
-            }
+            },
+            sortField: 'text'
+
         });
         
         $("#clearbox").click(function () {
