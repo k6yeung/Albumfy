@@ -60,7 +60,7 @@ def main():
                     pass
 
                 if true_album_name not in album_name_cache:
-                    depth_3 = {'name': true_album_name, 'parent': album['release_date'][:4], 'children': depth_4}
+                    depth_3 = {'name': true_album_name, 'parent': album['release_date'][:4], 'children': depth_4, 'image': album['images'][0]['url']}
                     album_name_cache.append(true_album_name)
                 else:
                     continue

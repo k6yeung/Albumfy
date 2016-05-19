@@ -214,6 +214,9 @@ function click(d) {
     if (d.href !== undefined) {
         //window.open(d.href, "_blank");
     }
+    if (d.image !== undefined) {
+        console.log(d.image);
+    }
 }
 
 function expand(d) {
