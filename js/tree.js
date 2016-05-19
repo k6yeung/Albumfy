@@ -235,9 +235,11 @@ function expandAll() {
 }
 
 function collapseAll() {
-    root.children.forEach(collapse);
-    collapse(root);
-    update(root);
+    if (root.children != undefined) {
+        root.children.forEach(collapse);
+        collapse(root);
+        update(root);
+    }
 }
 
 function centerNode(source) {

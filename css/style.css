@@ -98,6 +98,7 @@ input {
     right: 45px;
     font-size: 60px !important;
 }
+
 @media screen and (max-height: 450px) {
     .overlay a {
         font-size: 20px
@@ -109,8 +110,20 @@ input {
     }
 }
 
-.selectize-dropdown, .selectize-input, .selectize-control { 
+.item {
+  position:absolute !important;
+  bottom:8px;
+}
+
+#clearbox {
     width: 600px !important;
-    height:40px;
+    margin:0 auto;
+
+}
+
+.selectize-dropdown, .selectize-input, .selectize-control {
+    width: 600px !important;
     margin: auto;
+    height:40px;
+    line-height: 14px;
 }
