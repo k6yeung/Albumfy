@@ -9,6 +9,20 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.0/css/selectize.min.css">
     <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.0/css/selectize.bootstrap3.min.css">
+    <link rel="stylesheet" type="text/css" href="css/tooltipster.css" />
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery.tooltipster.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('g').on('mouseover','[song=true]', function() {
+                console.log('hovered');
+                $(this).tooltipster({
+                    contentAsHTML: true
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -43,7 +57,6 @@
         </div>
     </div>
     <script src="http://d3js.org/d3.v3.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.1/js/standalone/selectize.min.js"></script>
     <script src="misc/tree_data.js"></script>
     <script src="misc/lookup.js"></script>

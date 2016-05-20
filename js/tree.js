@@ -92,11 +92,18 @@ function update(source) {
             var x = source.x0 == undefined ? 0 : source.x0;
             var y = source.y0 == undefined ? 0 : source.y0;
             return "translate(" + y + "," + x + ")";
-        })
-        .on("click", click);
+        }).attr("song", function(d){
+            return d.href !== undefined;
+        }).attr("title", function(d){
+            if (d.href !== undefined){
+                return '<div><img src="'+d.parent.image+'" style="width:180px;height:180px;"></div> <div><strong>'+d.parent.name+'</strong></div> <div>'+d.name+'</div>';
+            }
+        }).on("click", click);
 
     nodeEnter.append("circle")
-        .attr("r", 1e-6)
+        .attr("r", 1e-6).attr("song", function(d){
+            return d.href !== undefined;
+        })
         .style("fill", function(d) {
             return d._children ? "lightsteelblue" : "#fff";
         })
