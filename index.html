@@ -17,7 +17,9 @@
         $(document).ready(function() {
             $('g').on('mouseover','[song=true]', function() {
                 console.log('hovered');
-                $(this).tooltipster();
+                $(this).tooltipster({
+                    contentAsHTML: true
+                });
             });
         });
     </script>

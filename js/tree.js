@@ -96,7 +96,7 @@ function update(source) {
             return d.href !== undefined;
         }).attr("title", function(d){
             if (d.href !== undefined){
-                return "TOOLTIP!";
+                return '<div><img src="'+d.parent.image+'" style="width:180px;height:180px;"></div> <div><strong>'+d.parent.name+'</strong></div> <div>'+d.name+'</div>';
             }
         }).on("click", click);
 
@@ -212,7 +212,7 @@ function click(d) {
     update(d);
     // Get to song link
     if (d.href !== undefined) {
-        //window.open(d.href, "_blank");
+        window.open(d.href, "_blank");
     }
     if (d.image !== undefined) {
         console.log(d.image);
